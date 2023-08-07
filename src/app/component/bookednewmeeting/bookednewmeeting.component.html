@@ -1,0 +1,44 @@
+<form class="mat-form" [formGroup]="bookednewmeetingForm" (ngSubmit)="bookednewmeeting()">
+    <h1 mat-dialog-title>Book New Room</h1>
+    
+    <div mat-dialog-content>
+      <mat-form-field appearance="outline">
+        <mat-label>Meeting Title</mat-label>
+        <input formControlName="meetingTitle" matInput required>
+        <input type="hidden" formControlName="meetingId" *ngIf="isEditMode" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Start Time</mat-label>
+        <input type="datetime-local"  matInput formControlName="startTime" required>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>End Time</mat-label>
+        <input type="datetime-local" matInput formControlName="endTime" required>
+      </mat-form-field>  
+      <section>
+        <mat-form-field appearance="outline">
+          <mat-label>Select Location</mat-label>
+          <mat-select formControlName="locationId" required (selectionChange)="getMeetingRoomByLocation($event)">
+            <mat-option *ngFor="let location of locationDetails" [value]="location.locationId">
+              {{ location.locationName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </section>
+      <section>
+        <mat-form-field appearance="outline">
+          <mat-label>Select Room</mat-label>
+          <mat-select formControlName="roomId" required>
+            <mat-option *ngFor="let meetingroom of meetingDetails" [value]="meetingroom.roomId">
+              {{ meetingroom.roomName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </section>
+    </div>
+    <div mat-dialog-actions>
+      <button mat-raised-button type="submit" color="primary">{{ isEditMode ? 'Update Meeting' : 'Book Room' }}</button>
+      <a mat-raised-button color="warn">Close</a>
+    </div>
+  </form>
+  
